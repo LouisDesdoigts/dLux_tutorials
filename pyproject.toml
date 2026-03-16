@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dLux-tutorials"
+version = "0.1.0"
+description = "Environment bundle for running dLux tutorial notebooks locally."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Louis Desdoigts" }]
+dependencies = [
+    "dLux",
+    "optimistix",
+    "matplotlib",
+    "tqdm",
+    "numpyro",
+    "chainconsumer",
+    "scikit-learn",
+    "jupyterlab",
+    "ipykernel",
+    "nbformat",
+    "nbconvert",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "ruff",
+]
+
+[tool.setuptools]
+py-modules = []
