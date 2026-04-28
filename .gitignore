@@ -28,3 +28,5 @@ pip-wheel-metadata/
 # Repo assets
 tutorials/assets/
 tutorials/markdowns/
+tutorials/files/asm_psfs.npy
+tutorials/files/asm_rgbs.npy
