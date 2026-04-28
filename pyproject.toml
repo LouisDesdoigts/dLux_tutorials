@@ -21,6 +21,7 @@ dependencies = [
     "ipykernel",
     "nbformat",
     "nbconvert",
+    "ipywidgets",
 ]
 
 [project.optional-dependencies]
