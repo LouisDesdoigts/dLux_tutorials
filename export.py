@@ -28,37 +28,27 @@ def convert_notebook(notebook_path):
         if cell.cell_type != "code":
             continue
 
-        # Check metadata-based collapsing (existing)
         is_collapsed = cell.metadata.get("jupyter", {}).get(
             "source_hidden", False
         ) or cell.metadata.get("collapsed", False)
-        collapse_title = "Click to expand code"  # default title
+        collapse_title = "Click to expand code"
 
-        # Check for marker-based collapsing (new)
         lines = cell.source.splitlines()
-        marker_title = None
         marker_line_idx = None
-
         for idx, line in enumerate(lines):
             if line.strip().startswith("## COLLAPSE:"):
-                marker_title = line.split("## COLLAPSE:", 1)[1].strip()
+                collapse_title = line.split("## COLLAPSE:", 1)[1].strip()
                 marker_line_idx = idx
                 is_collapsed = True
-                collapse_title = marker_title
                 break
 
-        # Remove the marker line from the cell if found
         if marker_line_idx is not None:
             lines.pop(marker_line_idx)
             cell.source = "\n".join(lines)
 
-        # Wrap in collapsible section if marked
+        # Inject a sentinel as first line — stays in code block after nbconvert
         if is_collapsed:
-            header = f'???+ info "{collapse_title}"\n'
-            indented_source = "\n".join(
-                ["    " + line for line in cell.source.splitlines()]
-            )
-            cell.source = header + indented_source
+            cell.source = f"# __COLLAPSE__: {collapse_title}\n" + cell.source
 
     # 4. Export to Markdown
     md_exporter = MarkdownExporter()
@@ -73,6 +63,22 @@ def convert_notebook(notebook_path):
 
         # String replacement for image links
         body = body.replace(f"({img_name})", f"({rel_assets_path}/{img_name})")
+
+    # 5b. Wrap collapsible code blocks
+    import re
+
+    def wrap_collapsible_blocks(body):
+        pattern = re.compile(r"```python\n# __COLLAPSE__: (.+?)\n(.*?)```", re.DOTALL)
+
+        def replacer(m):
+            title = m.group(1).strip()
+            code = m.group(2).rstrip("\n")
+            indented_code = "\n".join("    " + line for line in code.splitlines())
+            return f'??? info "{title}"\n    ```python\n{indented_code}\n    ```'
+
+        return pattern.sub(replacer, body)
+
+    body = wrap_collapsible_blocks(body)
 
     # 6. Write Final MD
     md_filename = os.path.join(markdown_dir, f"{notebook_name}.md")
