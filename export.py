@@ -23,6 +23,18 @@ def convert_notebook(notebook_path):
     with open(abs_path, "r", encoding="utf-8") as f:
         nb = nbformat.read(f, as_version=4)
 
+    # Interactive HTML outputs (for example Matplotlib animations produced by
+    # ``to_jshtml``) embed every frame directly in the generated Markdown. This
+    # can turn a small tutorial into a multi-megabyte page and permanently bloat
+    # the documentation repository. Keep the source code and lighter output
+    # representations, but omit HTML payloads from the static documentation.
+    for cell in nb.cells:
+        if cell.cell_type != "code":
+            continue
+        for output in cell.get("outputs", []):
+            data = output.get("data", {})
+            data.pop("text/html", None)
+
     # 3. Pre-process cells for Collapsible Sections
     for cell in nb.cells:
         if cell.cell_type != "code":
