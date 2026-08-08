@@ -2,7 +2,7 @@
 
 These tutorials build outward from the getting-started workflow through the main
 ready-to-use optical tools in dLux. They focus on selecting and composing existing
-components before the “How dLux works” tutorials examine their lower-level contracts.
+components before the basics tutorials examine their lower-level contracts.
 
 - `getting_started.ipynb`: build, simulate, and fit a complete differentiable imaging
   model.

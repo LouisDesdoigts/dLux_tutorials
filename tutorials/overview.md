@@ -20,10 +20,10 @@ workflow and introduce the principal ready-to-use tools that extend it:
 - named prebuilt components and their supported customisation;
 - basic optics, propagators, and their physical and sampling contracts.
 
-## How dLux works
+## Basics
 
-The [`how_it_works`](how_it_works/overview.md) tutorials explain the reusable package
-model and methods:
+The [`basics`](basics/overview.md) tutorials explain the reusable package model and
+methods:
 
 - fields, grids, wavefronts, and optical-layer interactions;
 - optical systems, sources, spectra, detectors, and images;

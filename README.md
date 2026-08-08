@@ -14,6 +14,10 @@ pip install .
 
 Then you should be able to open and run the tutorials yourself directly!
 
+Published tutorials live directly in `tutorials/`. Development notebooks and the
+tutorial authoring guide live in `tutorials/dev/` and are not exported to the live
+dLux documentation.
+
 ## Exporting Notebooks to docs
 
 This repo also allows the easy export of jupyter notebooks to markdown files for hosting on the [dLux docs](https://dlux.readthedocs.io/en/latest/). To export the notebooks, simply run:

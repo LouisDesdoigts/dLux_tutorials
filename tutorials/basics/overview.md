@@ -1,4 +1,4 @@
-# How dLux works
+# dLux basics
 
 These tutorials explain the objects and methods that make up dLux. They are designed
 to be read independently after the getting-started tutorial, while together forming a
